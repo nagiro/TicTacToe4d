@@ -45,16 +45,15 @@ public class main extends Activity {
 
     }
 */
-    public boolean doJugadaHuma(String nom){
+    public void doJugadaHuma(String nom){
 
         int Jugador = J.getJugador();
-        Boolean OK = J.DoMoviment( Casella.getNumCasella( nom ) );
-        J.PassaTorn(false);
-
-        if(!OK) Toast.makeText( main.this.getApplicationContext() ,"Ja hi ha una fitxa d'un altre jugador", Toast.LENGTH_SHORT).show();
-        else this.ActualitzaComptador(Jugador);
-
-        return OK;
+        if( J.DoMoviment( Casella.getNumCasella( nom ) ) ){
+            J.PassaTorn(false);
+            this.ActualitzaComptador(Jugador);
+        } else {
+            Toast.makeText( main.this.getApplicationContext() ,"Ja hi ha una fitxa d'un altre jugador", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -105,10 +104,10 @@ public class main extends Activity {
 
         //Inicialitzem els comptadors
 
-        findViewById(getResources().getIdentifier("comptador2" ,"id",main.this.getPackageName())).getBackground().setAlpha(100);
-        findViewById(getResources().getIdentifier("comptador3" ,"id",main.this.getPackageName())).getBackground().setAlpha(100);
-        findViewById(getResources().getIdentifier("comptador4" ,"id",main.this.getPackageName())).getBackground().setAlpha(100);
-
+        if(J.getJugador() != 1) findViewById(getResources().getIdentifier("comptador1" ,"id",main.this.getPackageName())).getBackground().setAlpha(100);
+        if(J.getJugador() != 2) findViewById(getResources().getIdentifier("comptador2" ,"id",main.this.getPackageName())).getBackground().setAlpha(100);
+        if(J.getJugador() != 3) findViewById(getResources().getIdentifier("comptador3" ,"id",main.this.getPackageName())).getBackground().setAlpha(100);
+        if(J.getJugador() != 4) findViewById(getResources().getIdentifier("comptador4" ,"id",main.this.getPackageName())).getBackground().setAlpha(100);
 
     }
 

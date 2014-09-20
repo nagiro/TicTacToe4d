@@ -29,7 +29,8 @@ public class Joc {
     //public HashMap<Integer, HashMap<String, Integer>> Linies = new HashMap<Integer, HashMap<String, Integer>>();
     public HashMap< KeyValue<Integer,Integer>, Integer> Punts = new HashMap< KeyValue<Integer,Integer>, Integer>();              //Nivell, Jugador, Punts
     public HashMap< KeyValue<Integer,String>, Integer> Linies = new HashMap< KeyValue<Integer,String>, Integer>();              //Jugador, Fila, fitxes
-
+    public Vector<Integer> OrdreJugadors = new Vector<Integer>();
+    public int idOrdreJugadors = 0;
 
     public Joc(HashMap<Integer, Casella> Taulell){
 
@@ -37,7 +38,6 @@ public class Joc {
         this.QuantsJugadorsMaquina = 0;
         this.TotalJugadors = this.QuantsJugadorsHumans + this.QuantsJugadorsMaquina;
         this.Nivell = 1;
-        this.Jugador = 1;
         this.Taulell = Taulell;
         this.QuantsNivells = 5;
         for(int i = 1; i < 99; i++){
@@ -55,10 +55,20 @@ public class Joc {
             }
         }
 
-        //Fem el repartiment inicial del taulell, perquè no estigui buit
+        //Repartim els jugadors
         Vector<Integer> tempc = new Vector<Integer>();
         Random r = new Random();
-        int player = 1;
+        for( int i = 1; i < 5; i++){ tempc.add(i); } //Carrego un vector amb totes les caselles disponibles
+        while( tempc.size() > 0){
+            int indexJug = r.nextInt(tempc.size());
+            this.OrdreJugadors.add( tempc.get(indexJug) );
+            tempc.remove(indexJug);
+        }
+
+        this.Jugador = this.OrdreJugadors.get(1);
+
+        //Fem el repartiment inicial del taulell, perquè no estigui buit
+        tempc.clear();
         for( int i = 1; i < 17; i++){ tempc.add(i); } //Carrego un vector amb totes les caselles disponibles
         while( tempc.size() > 0){
             int indexCas = r.nextInt(tempc.size());
@@ -70,6 +80,10 @@ public class Joc {
 
     }
 
+    //Agafa tots els jugadors i els ordena aleatòriament.
+    public void doBarrejaJugadors(){
+
+    }
 
     public Vector<String> EsLinia(Casella c){
 
@@ -186,24 +200,29 @@ public class Joc {
         }
     }
 
-    public int getJugador(){
-        return this.Jugador;
+    //Retorna el següent jugador
+    public int getNextPlayer(){
+        if(this.idOrdreJugadors == this.TotalJugadors-1) this.idOrdreJugadors = 0;
+        else this.idOrdreJugadors++;
+        return this.OrdreJugadors.get( this.idOrdreJugadors );
     }
 
+    //Retorna el següent jugador
+    public int getBeforePlayer(){
+        if(this.idOrdreJugadors == 0) this.idOrdreJugadors = this.TotalJugadors-1;
+        else this.idOrdreJugadors--;
+        return this.OrdreJugadors.get( this.idOrdreJugadors );
+    }
+
+
     public void PassaTorn(boolean ia){
-
         if(this.getCasellesLliures() == 0) this.SaltaNivell(ia);
-
-        if( this.getJugador() < this.TotalJugadors ) this.setJugador( this.getJugador() + 1 );
-        else { this.setJugador(1); }
+        this.setJugador( this.getNextPlayer() );
     }
 
     public void PassaTornAnterior(){
-
         if(this.getCasellesLliures() == 16 && this.Nivell > 1) this.TornaNivellAnterior();
-
-        if(this.getJugador() == 1) this.setJugador( this.TotalJugadors );
-        else this.setJugador(this.getJugador() - 1);
+        this.setJugador( this.getBeforePlayer() );
     }
 
 
@@ -327,4 +346,9 @@ public class Joc {
     public void setJugador(int jugador) {
         this.Jugador = jugador;
     }
+
+    public int getJugador(){
+        return this.Jugador;
+    }
+
 }
