@@ -78,6 +78,8 @@ public class main extends Activity {
 
         this.J = new Joc(Taulell);
 
+        //Mostrem els selectors
+
         final CharSequence[] items = {"1","2","3","4"};
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         b.setTitle("Human players?");
@@ -101,7 +103,11 @@ public class main extends Activity {
         });
         b2.create().show();
 
+        //Inicialitzem els comptadors
 
+        findViewById(getResources().getIdentifier("comptador2" ,"id",main.this.getPackageName())).getBackground().setAlpha(100);
+        findViewById(getResources().getIdentifier("comptador3" ,"id",main.this.getPackageName())).getBackground().setAlpha(100);
+        findViewById(getResources().getIdentifier("comptador4" ,"id",main.this.getPackageName())).getBackground().setAlpha(100);
 
 
     }
@@ -114,10 +120,17 @@ public class main extends Activity {
     }
 
     public void ActualitzaComptador(int Jugador){
-        int resID=getResources().getIdentifier("comptador"+(int)Jugador,"id",main.this.getPackageName());
-        TextView t=(TextView)findViewById(resID);
+
+        int Player = getResources().getIdentifier("comptador" + Integer.valueOf(Jugador) ,"id",main.this.getPackageName());
+        int NextPlayer = getResources().getIdentifier("comptador" + Integer.valueOf(this.J.getJugador()) ,"id",main.this.getPackageName()); //Jugador que ha de fer la jugada
+
+        TextView t=(TextView)findViewById(Player);
         int punts = J.CalculaPuntsJugador(Jugador);
         t.setText( String.valueOf(punts) );
+        t.getBackground().setAlpha(100);
+
+        TextView t2 = (TextView)findViewById(NextPlayer);
+        t2.getBackground().setAlpha(255);
 
     }
 
