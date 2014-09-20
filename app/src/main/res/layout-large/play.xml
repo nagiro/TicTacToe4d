@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:layout_width="500dp"
+        android:layout_height="0dp"
+        android:text=""
+        android:id="@+id/play1"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:background="@drawable/one_player"
+        android:layout_margin="20dp" />
+
+    <Button
+        android:layout_width="500dp"
+        android:layout_height="0dp"
+        android:text=""
+        android:id="@+id/play2"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:background="@drawable/two_player"
+        android:layout_margin="20dp" />
+
+    <Button
+        android:layout_width="500dp"
+        android:layout_height="0dp"
+        android:text=""
+        android:id="@+id/play3"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:background="@drawable/three_players"
+        android:layout_margin="20dp" />
+
+    <Button
+        android:layout_width="500dp"
+        android:layout_height="0dp"
+        android:text=""
+        android:id="@+id/play4"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:background="@drawable/four_players"
+        android:layout_margin="20dp" />
+</LinearLayout>

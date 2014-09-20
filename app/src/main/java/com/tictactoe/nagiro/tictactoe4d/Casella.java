@@ -1,5 +1,6 @@
 package com.tictactoe.nagiro.tictactoe4d;
 
+import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.util.Log;
 import android.view.animation.Animation;
@@ -19,9 +20,9 @@ public class Casella {
     public int Numero = 0;
     //Colors de les fitxes
     public HashMap<Integer, Integer> Colors;
+    public Activity Context;
 
-
-    public Casella(int id, ImageView i){
+    public Casella(int id, ImageView i, Activity Context){
 
         this.Colors = new HashMap<Integer,Integer>();
         Colors.put(0, R.drawable.casella);
@@ -35,6 +36,7 @@ public class Casella {
         this.JugadorPerNivell.put(1,0);
         this.i = i;
         this.i.setBackgroundResource( this.Colors.get(0) );
+        this.Context = Context; //Passem el context per poder disparar el thread de l'animació
 
     }
 
@@ -71,18 +73,14 @@ public class Casella {
 
         final AnimationDrawable a = (AnimationDrawable)this.i.getBackground();
 
-        new Thread(new Runnable() {
-            public void run() {
-                a.start();
-
-                try { Thread.sleep(1000);
-                } catch (InterruptedException e) { e.printStackTrace(); }
-
-                a.stop();
-
-            }
-
-        }).start();
+        this.Context.runOnUiThread(
+                new Runnable(){
+                    public void run(){
+                        a.stop();
+                        a.start();
+                    }
+                }
+        );
 
     }
 

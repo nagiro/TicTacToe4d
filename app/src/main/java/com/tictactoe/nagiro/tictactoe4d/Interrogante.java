@@ -12,14 +12,14 @@ import android.widget.Button;
 import com.tictactoe.nagiro.tictactoe4d.R;
 
 public class Interrogante extends Activity {
-	private Button button1, button2;
+	private Button button_ej_uno_cancelar, button_ej_uno_continuar;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ej_uno);
-		button1=(Button)findViewById(R.id.boto_so);
-		button2=(Button)findViewById(R.id.boto_ajuda);
-		button1.setOnClickListener(new OnClickListener() {
+		button_ej_uno_cancelar=(Button)findViewById(R.id.button_ej_uno_cancelar);
+		button_ej_uno_continuar=(Button)findViewById(R.id.button_ej_uno_continuar);
+		button_ej_uno_cancelar.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -27,7 +27,7 @@ public class Interrogante extends Activity {
 			finish();	
 			}
 		});
-		button2.setOnClickListener(new OnClickListener() {
+		button_ej_uno_continuar.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {

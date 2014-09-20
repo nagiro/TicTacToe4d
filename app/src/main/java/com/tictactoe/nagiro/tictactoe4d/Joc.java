@@ -1,5 +1,6 @@
 package com.tictactoe.nagiro.tictactoe4d;
 
+import android.app.Activity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 
@@ -12,11 +13,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.Random;
+
+import static java.lang.Math.random;
 
 public class Joc {
 
     public int QuantsJugadorsHumans;
     public int QuantsJugadorsMaquina;
+    public int QuantsNivells;
     public int TotalJugadors;
     private int Jugador;
     public int Nivell;
@@ -34,6 +39,7 @@ public class Joc {
         this.Nivell = 1;
         this.Jugador = 1;
         this.Taulell = Taulell;
+        this.QuantsNivells = 5;
         for(int i = 1; i < 99; i++){
             for(int j = 1; j <= this.TotalJugadors ; j++){
                 this.Punts.put( new KeyValue(i,j) , 0 );
@@ -47,6 +53,19 @@ public class Joc {
                     this.Linies.put( new KeyValue(j,fila), 0);
                 }
             }
+        }
+
+        //Fem el repartiment inicial del taulell, perquè no estigui buit
+        Vector<Integer> tempc = new Vector<Integer>();
+        Random r = new Random();
+        int player = 1;
+        for( int i = 1; i < 17; i++){ tempc.add(i); } //Carrego un vector amb totes les caselles disponibles
+        while( tempc.size() > 0){
+            int indexCas = r.nextInt(tempc.size());
+            int idCasella = tempc.get(indexCas);
+            this.DoMoviment(idCasella);
+            this.PassaTorn(false);
+            tempc.remove(indexCas);
         }
 
     }
@@ -114,9 +133,9 @@ public class Joc {
 
 
     //Funció que marca un moviment
-    public Boolean DoMoviment(int Nom){
+    public Boolean DoMoviment(int NumeroCasella){
 
-        Casella c = this.Taulell.get(Nom);
+        Casella c = this.Taulell.get(NumeroCasella);
 
         boolean JugadaOK = c.putFitxa( this.getJugador(), this.Nivell );
         if( JugadaOK ){
@@ -197,7 +216,7 @@ public class Joc {
         int[] result = minimax(1, this.getJugador(), Integer.MIN_VALUE, Integer.MAX_VALUE, this);
         return result[1];
     }
-*/
+
     /** Minimax (recursive) at level of depth for maximizing or minimizing player
      with alpha-beta cut-off. Return int[3] of {score, num casella}  */
 /*    private int[] minimax(int depth, int myPlayer, int alpha, int beta, Joc JocActual) {
@@ -216,10 +235,7 @@ public class Joc {
             for (int move : nextMoves) {
                 // try this move for the current "player"
                 JugadorActual = JocActual.getJugador();
-                JocActual.DoMoviment( move );
 
-                //try{ Log.v("JocActual", JocActual.Linia.get(JugadorActual).toString()); } catch (Exception e){}
-                //try{ Log.v("JocFutur",JocFutur.Linia.get(JugadorActual).toString()); } catch (Exception e){}
                 if ( myPlayer == JugadorActual ) {  // mySeed (computer) is maximizing player
 
                     int tmp;
@@ -249,11 +265,11 @@ public class Joc {
             return new int[] {(myPlayer == JugadorActual) ? alpha : beta, bestCasella };
         }
     }
-*/
+
     private List<Integer> generateMoves(Joc JocActual) {
         return JocActual.getCasellesLliuresArray();
     }
-/*
+
     private int evaluate(int c, Joc JocActual, int myPlayer ) {
         int score = 0;
 

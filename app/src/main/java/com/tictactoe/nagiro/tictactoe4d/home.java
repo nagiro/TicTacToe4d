@@ -2,7 +2,9 @@ package com.tictactoe.nagiro.tictactoe4d;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -26,6 +28,15 @@ public class home extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
 
+      /**  public void Boton() {
+        AnimationDrawable animacio_play;
+        animacio_play = (AnimationDrawable) getResources().getDrawable(R.drawable.animacio_play);
+        Button boto_play = new Button(this);
+        boto_play.setBackground(animacio_play);
+        animacio_play.start();
+
+
+        }**/
         button5 = (ImageView)findViewById(R.id.boto_ajuda);
         button5.setOnClickListener(new OnClickListener() {
 

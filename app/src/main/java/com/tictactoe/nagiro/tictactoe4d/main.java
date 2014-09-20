@@ -1,6 +1,8 @@
 package com.tictactoe.nagiro.tictactoe4d;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -67,7 +69,7 @@ public class main extends Activity {
                 ImageView Temp = this.getImageViewFromNom(i);
                 Temp.setOnClickListener(this.listener);
 
-                Taulell.put( i , new Casella( i , Temp ) );
+                Taulell.put( i , new Casella( i , Temp, this ) );
 
             } catch (Exception e) {
                 Log.v("Exception", e.toString());
@@ -75,6 +77,32 @@ public class main extends Activity {
         }
 
         this.J = new Joc(Taulell);
+
+        final CharSequence[] items = {"1","2","3","4"};
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle("Human players?");
+        b.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                main.this.J.QuantsJugadorsHumans = item;
+                main.this.J.QuantsJugadorsMaquina = 4 - item;
+                dialog.dismiss();
+            }
+        });
+        b.create().show();
+
+        final CharSequence[] items2 = {"5","10","15","20"};
+        AlertDialog.Builder b2 = new AlertDialog.Builder(this);
+        b2.setTitle("How many levels?");
+        b2.setSingleChoiceItems(items2, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                main.this.J.QuantsNivells = item*5;
+                dialog.dismiss();
+            }
+        });
+        b2.create().show();
+
+
+
 
     }
 
@@ -94,3 +122,4 @@ public class main extends Activity {
     }
 
 }
+
