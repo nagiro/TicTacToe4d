@@ -71,7 +71,7 @@ public class main extends Activity {
                 ImageView Temp = this.getImageViewFromNom(i);
                 Temp.setOnClickListener(this.listener);
 
-                Taulell.put( i , new Casella( i , Temp, this ) );
+                Taulell.put( i , new Casella( i, Temp, this ) );
 
             } catch (Exception e) {
                 Log.v("Exception", e.toString());

@@ -65,7 +65,7 @@ public class Joc {
         while( tempc.size() > 0){
             int indexCas = r.nextInt(tempc.size());
             int idCasella = tempc.get(indexCas);
-            this.doMoviment(idCasella, true);
+            this.doMoviment(idCasella, false);
             this.PassaTorn();
             tempc.remove(indexCas);
         }
@@ -177,7 +177,7 @@ public class Joc {
     public Boolean doMoviment(int NumeroCasella, boolean ia){
 
         Casella c = this.Taulell.get(NumeroCasella);
-        boolean JugadaOK = c.putFitxa(this.getJugador(), this.Nivell);
+        boolean JugadaOK = c.putFitxa(this.getJugador(), this.Nivell, ia);
         if( JugadaOK ){
 
             Vector<String> LiniesNoves = this.EsLinia(c);       //Mirem quines línies fem amb aquesta casella
@@ -195,6 +195,7 @@ public class Joc {
             this.Taulell.put( c.getNumero() , c );
             return true;
         } else {
+            //c.removeFitxa(this.getJugador(), this.Nivell);
             return false;
         }
 

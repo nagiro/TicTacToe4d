@@ -26,10 +26,14 @@ public class Casella {
 
         this.Colors = new HashMap<Integer,Integer>();
         Colors.put(0, R.drawable.casella);
-        Colors.put(1, R.drawable.animacio_blaves);
-        Colors.put(2, R.drawable.animacio_vermelles);
-        Colors.put(3, R.drawable.animacio_grogues);
-        Colors.put(4, R.drawable.animacio_verdes);
+        Colors.put(1, R.drawable.f_blava_0);
+        Colors.put(2, R.drawable.f_vermella1);
+        Colors.put(3, R.drawable.f_groga_1);
+        Colors.put(4, R.drawable.f_verde0);
+        Colors.put(5, R.drawable.animacio_blaves);
+        Colors.put(6, R.drawable.animacio_vermelles);
+        Colors.put(7, R.drawable.animacio_grogues);
+        Colors.put(8, R.drawable.animacio_verdes);
 
         this.Numero = id;
         this.Nom = "i" + String.valueOf(id);
@@ -56,7 +60,6 @@ public class Casella {
         } catch(Exception e){ return 0; }
     }
 
-
     public int getNumero(){
         return this.Numero;
     }
@@ -69,36 +72,38 @@ public class Casella {
 
         Integer Jugador = this.JugadorPerNivell.get(Nivell);
         if( Jugador == null || Jugador == 0 ){ Jugador = this.JugadorPerNivell.get(Nivell - 1); }
-        this.i.setBackgroundResource( this.Colors.get( Jugador ) );
+        this.i.setBackgroundResource( this.Colors.get( Jugador + 4 ) );
 
         final AnimationDrawable a = (AnimationDrawable)this.i.getBackground();
 
         this.Context.runOnUiThread(
                 new Runnable(){
                     public void run(){
+                       a.start();
+                       try { Thread.sleep(1000); } catch (InterruptedException e) {
+                        }
                         a.stop();
-                        a.start();
                     }
                 }
         );
 
     }
 
-    public boolean putFitxa(int Jugador, int Nivell){
+    public boolean putFitxa(int Jugador, int Nivell, boolean ia){
 
         //miro si al mateix nivell ja hi ha una fitxa
         if( this.getJugador(Nivell) > 0 ) return false;
 
-        this.i.setBackgroundResource( this.Colors.get( Jugador ) );
-        AnimationDrawable a = (AnimationDrawable)this.i.getBackground();
-        a.setAlpha(255);
+        if(!ia) {
+            this.i.setBackgroundResource(this.Colors.get(Jugador));
+            this.i.getBackground().setAlpha(255);
+        }
 
         this.JugadorPerNivell.put( Nivell , Jugador );
 
         return true;
     }
 
-    //Només per IA
     public void removeFitxa(int Jugador, int Nivell) {
 
         if(Nivell > 1) this.JugadorPerNivell.remove(Nivell);
