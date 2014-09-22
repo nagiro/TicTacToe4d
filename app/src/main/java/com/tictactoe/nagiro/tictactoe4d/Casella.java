@@ -92,7 +92,6 @@ public class Casella {
         this.i.setBackgroundResource( this.Colors.get( Jugador ) );
         AnimationDrawable a = (AnimationDrawable)this.i.getBackground();
         a.setAlpha(255);
-//        a.start();
 
         this.JugadorPerNivell.put( Nivell , Jugador );
 

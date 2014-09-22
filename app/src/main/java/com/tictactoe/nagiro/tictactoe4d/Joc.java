@@ -1,6 +1,7 @@
 package com.tictactoe.nagiro.tictactoe4d;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 
@@ -23,7 +24,6 @@ public class Joc {
     public int QuantsJugadorsMaquina;
     public int QuantsNivells;
     public int TotalJugadors;
-    private int Jugador;
     public int Nivell;
     public HashMap<Integer, Casella> Taulell;
     public HashMap< KeyValue<Integer,Integer>, Integer> Punts = new HashMap< KeyValue<Integer,Integer>, Integer>();              //Nivell, Jugador, Punts
@@ -56,7 +56,6 @@ public class Joc {
 
         //Repartim els jugadors en un aleatori
         this.doBarrejaJugadors();
-        this.Jugador = this.OrdreJugadors.get(1);
 
         //Fem el repartiment inicial del taulell, perquè no estigui buit
         Vector<Integer> tempc = new Vector<Integer>();
@@ -66,8 +65,8 @@ public class Joc {
         while( tempc.size() > 0){
             int indexCas = r.nextInt(tempc.size());
             int idCasella = tempc.get(indexCas);
-            this.doMoviment( idCasella , true );
-            this.PassaTorn(false);
+            this.doMoviment(idCasella, true);
+            this.PassaTorn();
             tempc.remove(indexCas);
         }
 
@@ -91,19 +90,19 @@ public class Joc {
         Vector<String> LiniesNoves = new Vector();
 
         for(String linia : c.getFiles()){
-            Integer fitxes = this.Linies.get( new KeyValue(this.Jugador, linia));
+            Integer fitxes = this.Linies.get( new KeyValue(this.getJugador(), linia));
             if(fitxes != null){
                 int JugadorAnterior = c.getJugador(this.Nivell-1);
-                if( JugadorAnterior != this.Jugador ){
+                if( JugadorAnterior != this.getJugador() ){
                     fitxes = fitxes + 1;
-                    this.Linies.put( new KeyValue(this.Jugador, linia), fitxes );
+                    this.Linies.put( new KeyValue(this.getJugador(), linia), fitxes );
                     Integer FitxesJugadorAnterior = this.Linies.get( new KeyValue(JugadorAnterior, linia) );
                     this.Linies.put( new KeyValue(JugadorAnterior,linia), FitxesJugadorAnterior - 1 );
                 }
             }
             if(fitxes == 4){
-                Integer PuntsActuals = this.Punts.get( new KeyValue(this.Nivell, this.Jugador ) );
-                if(PuntsActuals != null) this.Punts.put( new KeyValue(this.Nivell, this.Jugador), PuntsActuals+1);
+                Integer PuntsActuals = this.Punts.get( new KeyValue(this.Nivell, this.getJugador() ) );
+                if(PuntsActuals != null) this.Punts.put( new KeyValue(this.Nivell, this.getJugador() ), PuntsActuals+1);
                 LiniesNoves.add(linia);
             }
         }
@@ -118,22 +117,22 @@ public class Joc {
         Vector<String> LiniesNoves = new Vector();
 
         for(String linia : c.getFiles()){
-            Integer fitxes = this.Linies.get( new KeyValue(this.Jugador, linia) );
+            Integer fitxes = this.Linies.get( new KeyValue(this.getJugador(), linia) );
             int FitxesOriginal = fitxes;
 
             if(fitxes != null){
                 int JugadorNivellAnterior = c.getJugador(this.Nivell-1);
-                if( JugadorNivellAnterior != this.Jugador ){
+                if( JugadorNivellAnterior != this.getJugador() ){
                     fitxes = fitxes - 1;
-                    this.Linies.put( new KeyValue(this.Jugador, linia), fitxes );
+                    this.Linies.put( new KeyValue(this.getJugador(), linia), fitxes );
                     Integer FitxesJugadorNivellAnterior = this.Linies.get( new KeyValue(JugadorNivellAnterior, linia) );
                     this.Linies.put( new KeyValue(JugadorNivellAnterior,linia), FitxesJugadorNivellAnterior + 1 );
                 }
             }
 
             if(FitxesOriginal == 4 && fitxes == 3){
-                Integer PuntsActuals = this.Punts.get( new KeyValue(this.Nivell, this.Jugador ) );
-                if(PuntsActuals != null) this.Punts.put( new KeyValue(this.Nivell, this.Jugador), PuntsActuals - 1 );
+                Integer PuntsActuals = this.Punts.get( new KeyValue(this.Nivell, this.getJugador() ) );
+                if(PuntsActuals != null) this.Punts.put( new KeyValue(this.Nivell, this.getJugador() ), PuntsActuals - 1 );
             }
         }
     }
@@ -178,8 +177,7 @@ public class Joc {
     public Boolean doMoviment(int NumeroCasella, boolean ia){
 
         Casella c = this.Taulell.get(NumeroCasella);
-
-        boolean JugadaOK = c.putFitxa( this.getJugador(), this.Nivell );
+        boolean JugadaOK = c.putFitxa(this.getJugador(), this.Nivell);
         if( JugadaOK ){
 
             Vector<String> LiniesNoves = this.EsLinia(c);       //Mirem quines línies fem amb aquesta casella
@@ -212,31 +210,35 @@ public class Joc {
 
     }
 
-    public void SaltaNivell(boolean ia){
+    public void SaltaNivell(){
        this.Nivell++;
         for (Map.Entry<Integer, Casella> c : Taulell.entrySet()) {
             c.getValue().doNewLevel();
         }
     }
 
+
+    public int getJugador(){
+        return this.OrdreJugadors.get( this.idOrdreJugadors );
+    }
+
     //Retorna el següent jugador
     public int getNextPlayer(){
+        int Ordre = this.idOrdreJugadors;
+        if( Ordre == this.TotalJugadors - 1 ) Ordre = 0;
+        else Ordre++;
+        return this.OrdreJugadors.get( Ordre );
+    }
+
+    public int doNextPlayer(){
         if(this.idOrdreJugadors == this.TotalJugadors-1) this.idOrdreJugadors = 0;
         else this.idOrdreJugadors++;
         return this.OrdreJugadors.get( this.idOrdreJugadors );
     }
 
-    //Retorna el següent jugador
-    public int getBeforePlayer(){
-        if(this.idOrdreJugadors == 0) this.idOrdreJugadors = this.TotalJugadors-1;
-        else this.idOrdreJugadors--;
-        return this.OrdreJugadors.get( this.idOrdreJugadors );
-    }
-
-
-    public void PassaTorn(boolean ia){
-        if(this.getCasellesLliures() == 0) this.SaltaNivell(ia);
-        this.setJugador( this.getNextPlayer() );
+    public void PassaTorn(){
+        if(this.getCasellesLliures() == 0) this.SaltaNivell();
+        this.doNextPlayer();
     }
 
     //********************************************
@@ -321,14 +323,6 @@ public class Joc {
 
         }
         return score;
-    }
-
-    public void setJugador(int jugador) {
-        this.Jugador = jugador;
-    }
-
-    public int getJugador(){
-        return this.Jugador;
     }
 
 }

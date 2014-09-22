@@ -21,13 +21,14 @@ import java.util.HashMap;
  */
 public class main extends Activity {
 
-    private Joc J;
-    private HashMap<Integer, Casella> Taulell = new HashMap<Integer, Casella>();
+    static private Joc J;
+    static private HashMap<Integer, Casella> Taulell = new HashMap<Integer, Casella>();
 
     View.OnClickListener listener = new View.OnClickListener(){
         public void onClick(View v){
             //Rebem un click a una casella
             String nom = getResources().getResourceEntryName(v.getId());
+            int Jugador = main.this.J.getJugador();
             if(main.this.J.getJugador() <= main.this.J.QuantsJugadorsHumans){
                 doJugadaHuma(nom);
             } else {
@@ -42,7 +43,7 @@ public class main extends Activity {
 
         i = J.moveIA();
         J.doMoviment( i , false );
-        J.PassaTorn(false);
+        J.PassaTorn();
         this.ActualitzaComptador(Jugador);
 
     }
@@ -51,7 +52,7 @@ public class main extends Activity {
 
         int Jugador = J.getJugador();
         if( J.doMoviment( Casella.getNumCasella( nom ) , false ) ){
-            J.PassaTorn(false);
+            J.PassaTorn();
             this.ActualitzaComptador(Jugador);
         } else {
             Toast.makeText( main.this.getApplicationContext() ,"Ja hi ha una fitxa d'un altre jugador", Toast.LENGTH_SHORT).show();
@@ -86,8 +87,8 @@ public class main extends Activity {
         b.setTitle("Human players?");
         b.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-                main.this.J.QuantsJugadorsHumans = item;
-                main.this.J.QuantsJugadorsMaquina = 4 - item;
+                main.this.J.QuantsJugadorsHumans = item + 1;
+                main.this.J.QuantsJugadorsMaquina = 4 - ( item + 1 );
                 dialog.dismiss();
             }
         });
@@ -98,7 +99,7 @@ public class main extends Activity {
         b2.setTitle("How many levels?");
         b2.setSingleChoiceItems(items2, -1, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-                main.this.J.QuantsNivells = item*5;
+                main.this.J.QuantsNivells = (item + 1)*5;
                 dialog.dismiss();
             }
         });
