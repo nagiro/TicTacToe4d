@@ -26,29 +26,31 @@ public class main extends Activity {
 
     View.OnClickListener listener = new View.OnClickListener(){
         public void onClick(View v){
+            //Rebem un click a una casella
             String nom = getResources().getResourceEntryName(v.getId());
-            doJugadaHuma(nom);
-            //if(doJugadaHuma( nom )) doJugadaMaquina();
+            if(main.this.J.getJugador() <= main.this.J.QuantsJugadorsHumans){
+                doJugadaHuma(nom);
+            } else {
+                doJugadaMaquina();
+            }
         }
     };
 
-/*    public void doJugadaMaquina(){
+    public void doJugadaMaquina(){
         int i;
         int Jugador = J.getJugador();
 
-        do{
-           i = J.moveIA();
-        }while( !J.DoMoviment( i ));
+        i = J.moveIA();
+        J.doMoviment( i , false );
         J.PassaTorn(false);
-
         this.ActualitzaComptador(Jugador);
 
     }
-*/
+
     public void doJugadaHuma(String nom){
 
         int Jugador = J.getJugador();
-        if( J.DoMoviment( Casella.getNumCasella( nom ) ) ){
+        if( J.doMoviment( Casella.getNumCasella( nom ) , false ) ){
             J.PassaTorn(false);
             this.ActualitzaComptador(Jugador);
         } else {

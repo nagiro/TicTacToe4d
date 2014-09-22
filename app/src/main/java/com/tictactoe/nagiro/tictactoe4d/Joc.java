@@ -26,7 +26,6 @@ public class Joc {
     private int Jugador;
     public int Nivell;
     public HashMap<Integer, Casella> Taulell;
-    //public HashMap<Integer, HashMap<String, Integer>> Linies = new HashMap<Integer, HashMap<String, Integer>>();
     public HashMap< KeyValue<Integer,Integer>, Integer> Punts = new HashMap< KeyValue<Integer,Integer>, Integer>();              //Nivell, Jugador, Punts
     public HashMap< KeyValue<Integer,String>, Integer> Linies = new HashMap< KeyValue<Integer,String>, Integer>();              //Jugador, Fila, fitxes
     public Vector<Integer> OrdreJugadors = new Vector<Integer>();
@@ -55,25 +54,19 @@ public class Joc {
             }
         }
 
-        //Repartim els jugadors
-        Vector<Integer> tempc = new Vector<Integer>();
-        Random r = new Random();
-        for( int i = 1; i < 5; i++){ tempc.add(i); } //Carrego un vector amb totes les caselles disponibles
-        while( tempc.size() > 0){
-            int indexJug = r.nextInt(tempc.size());
-            this.OrdreJugadors.add( tempc.get(indexJug) );
-            tempc.remove(indexJug);
-        }
-
+        //Repartim els jugadors en un aleatori
+        this.doBarrejaJugadors();
         this.Jugador = this.OrdreJugadors.get(1);
 
         //Fem el repartiment inicial del taulell, perquè no estigui buit
+        Vector<Integer> tempc = new Vector<Integer>();
+        Random r = new Random();
         tempc.clear();
         for( int i = 1; i < 17; i++){ tempc.add(i); } //Carrego un vector amb totes les caselles disponibles
         while( tempc.size() > 0){
             int indexCas = r.nextInt(tempc.size());
             int idCasella = tempc.get(indexCas);
-            this.DoMoviment(idCasella);
+            this.doMoviment( idCasella , true );
             this.PassaTorn(false);
             tempc.remove(indexCas);
         }
@@ -82,6 +75,14 @@ public class Joc {
 
     //Agafa tots els jugadors i els ordena aleatòriament.
     public void doBarrejaJugadors(){
+        Vector<Integer> tempc = new Vector<Integer>();
+        Random r = new Random();
+        for( int i = 1; i < 5; i++){ tempc.add(i); } //Carrego un vector amb totes les caselles disponibles
+        while( tempc.size() > 0){
+            int indexJug = r.nextInt(tempc.size());
+            this.OrdreJugadors.add( tempc.get(indexJug) );
+            tempc.remove(indexJug);
+        }
 
     }
 
@@ -110,6 +111,33 @@ public class Joc {
         return LiniesNoves;
 
     }
+
+
+    public void UndoEsLinia(Casella c){
+
+        Vector<String> LiniesNoves = new Vector();
+
+        for(String linia : c.getFiles()){
+            Integer fitxes = this.Linies.get( new KeyValue(this.Jugador, linia) );
+            int FitxesOriginal = fitxes;
+
+            if(fitxes != null){
+                int JugadorNivellAnterior = c.getJugador(this.Nivell-1);
+                if( JugadorNivellAnterior != this.Jugador ){
+                    fitxes = fitxes - 1;
+                    this.Linies.put( new KeyValue(this.Jugador, linia), fitxes );
+                    Integer FitxesJugadorNivellAnterior = this.Linies.get( new KeyValue(JugadorNivellAnterior, linia) );
+                    this.Linies.put( new KeyValue(JugadorNivellAnterior,linia), FitxesJugadorNivellAnterior + 1 );
+                }
+            }
+
+            if(FitxesOriginal == 4 && fitxes == 3){
+                Integer PuntsActuals = this.Punts.get( new KeyValue(this.Nivell, this.Jugador ) );
+                if(PuntsActuals != null) this.Punts.put( new KeyValue(this.Nivell, this.Jugador), PuntsActuals - 1 );
+            }
+        }
+    }
+
 
 
     public int CalculaPuntsJugador(int Jugador){
@@ -147,15 +175,15 @@ public class Joc {
 
 
     //Funció que marca un moviment
-    public Boolean DoMoviment(int NumeroCasella){
+    public Boolean doMoviment(int NumeroCasella, boolean ia){
 
         Casella c = this.Taulell.get(NumeroCasella);
 
         boolean JugadaOK = c.putFitxa( this.getJugador(), this.Nivell );
         if( JugadaOK ){
 
-            Vector<String> LiniesNoves = this.EsLinia(c);
-            if(LiniesNoves != null) {
+            Vector<String> LiniesNoves = this.EsLinia(c);       //Mirem quines línies fem amb aquesta casella
+            if( LiniesNoves != null && !ia ) {
                 for (String linia : LiniesNoves) {
                     for (Integer i : Casella.getCasellesFromFila(linia)) {
                         if (i instanceof Integer) {
@@ -163,7 +191,6 @@ public class Joc {
                             temp.showAnimation(this.Nivell);
                         }
                     }
-                    //Fem l'animació de les caselles
                 }
             }
 
@@ -178,24 +205,16 @@ public class Joc {
     //Funció que marca un moviment
     public void UndoDoMoviment(int Nom){
 
-
-        this.PassaTornAnterior();
-
         Casella c = this.Taulell.get(Nom);
+        this.UndoEsLinia(c);
         c.removeFitxa( this.getJugador(), this.Nivell );
-
         this.Taulell.put( c.getNumero() , c );
-        if(this.getCasellesLliures() == 16 && this.Nivell > 1) this.TornaNivellAnterior();
 
-    }
-
-    public void TornaNivellAnterior(){
-        this.Nivell--;
     }
 
     public void SaltaNivell(boolean ia){
-        this.Nivell++;
-        for(Map.Entry<Integer,Casella> c : Taulell.entrySet()){
+       this.Nivell++;
+        for (Map.Entry<Integer, Casella> c : Taulell.entrySet()) {
             c.getValue().doNewLevel();
         }
     }
@@ -220,104 +239,65 @@ public class Joc {
         this.setJugador( this.getNextPlayer() );
     }
 
-    public void PassaTornAnterior(){
-        if(this.getCasellesLliures() == 16 && this.Nivell > 1) this.TornaNivellAnterior();
-        this.setJugador( this.getBeforePlayer() );
-    }
-
-
     //********************************************
     //Part de IA
     //********************************************
 
-    /** Get next best move for computer. Return int[1] of {Num Casella} */
-/*    int moveIA() {
-        int[] result = minimax(1, this.getJugador(), Integer.MIN_VALUE, Integer.MAX_VALUE, this);
-        return result[1];
-    }
+    /** Aconseguim el següent millor moviment per la fitxa */
+    int moveIA() {
 
-    /** Minimax (recursive) at level of depth for maximizing or minimizing player
-     with alpha-beta cut-off. Return int[3] of {score, num casella}  */
-/*    private int[] minimax(int depth, int myPlayer, int alpha, int beta, Joc JocActual) {
-        // Generate possible next moves in a list of int[2] of {row, col}.
-        List<Integer> nextMoves = generateMoves(JocActual);
+        List<Integer> nextMoves = generateMoves(this);
 
-        // mySeed is maximizing; while oppSeed is minimizing
-        int score;
-        int bestCasella = -1;
-        int JugadorActual = 0;
+        int score = 0;
+        int millorScore = 0;
+        int millorCasella = -1;
 
-        if (nextMoves.isEmpty() || depth == 0) {
-            score = 0;
-            return new int[] { score, bestCasella };
-        } else {
-            for (int move : nextMoves) {
-                // try this move for the current "player"
-                JugadorActual = JocActual.getJugador();
+        for(Integer numCasella : nextMoves){
 
-                if ( myPlayer == JugadorActual ) {  // mySeed (computer) is maximizing player
+            this.doMoviment(numCasella, true );
+            score = evaluate(numCasella, this, this.getJugador() );
+            this.UndoDoMoviment(numCasella);
 
-                    int tmp;
-                    tmp = minimax( depth - 1, myPlayer, alpha, beta, JocActual )[0];
-                    score = tmp + evaluate(move, JocActual, JugadorActual);
-                    JocActual.PassaTorn(true);
-                    JocActual.UndoDoMoviment( move );
-                    //Log.v(nom, String.valueOf(score));
-                    if (score > alpha) {
-                        alpha = score;
-                        bestCasella = move;
-                    }
-                } else {  // oppSeed is minimizing player
-                    int tmp = minimax(depth - 1, myPlayer, alpha, beta, JocActual)[0];
-                    score = tmp + evaluate(move, JocActual, JugadorActual);
-                    JocActual.PassaTorn(true);
-                    JocActual.UndoDoMoviment( move );
-                    //Log.v(nom, String.valueOf(score));
-                    if (score < beta) {
-                        beta = score;
-                        bestCasella = move;
-                    }
-                }
-                // cut-off
-                if (alpha >= beta) break;
+            if(score > millorScore){
+                millorCasella = numCasella;
+                millorScore = score;
             }
-            return new int[] {(myPlayer == JugadorActual) ? alpha : beta, bestCasella };
+
         }
+        return millorCasella;
     }
 
     private List<Integer> generateMoves(Joc JocActual) {
         return JocActual.getCasellesLliuresArray();
     }
 
-    private int evaluate(int c, Joc JocActual, int myPlayer ) {
+    private int evaluate(int numCasella, Joc JocActual, int Jugador ) {
         int score = 0;
 
-        //Diem, que si fa més línies, guanya
-        //mirem per les casella quines linies juga
-        Casella Cas = JocActual.Taulell.get(c);
-        int Jugadors = JocActual.TotalJugadors;
-        HashMap<Integer,Integer> PuntsLiniaJugadors;
-        PuntsLiniaJugadors = new HashMap<Integer,Integer>(Jugadors);
+        Casella Cas = JocActual.Taulell.get(numCasella);
+        int TotalJugadors = JocActual.TotalJugadors;
+        HashMap<Integer,Integer> PuntsLiniaJugadors;    //Quants punts per línia fa cada jugador (Jugador,Punts)
+        PuntsLiniaJugadors = new HashMap<Integer,Integer>(TotalJugadors);
 
+        //Agafem les files que toca aquesta casella
         for(String fila : Cas.getFiles()){
 
             int QuantsJugadorsLinia = 0;
             PuntsLiniaJugadors.clear();
 
-
-            for(int i = 1; i <= Jugadors; i++){
+            //Per tots els jugadors, mirem quants punts fan
+            for(int i = 1; i <= TotalJugadors; i++){
                 //miro si tenen alguna casella ocupada.
-                HashMap<String,Integer> LiniesJugador= JocActual.Linies.get(i);
-                Integer Punts = LiniesJugador.get(fila);
-                if(Punts != null){
-                    if( Punts > 0 ) { QuantsJugadorsLinia++; }
-                    PuntsLiniaJugadors.put(i,Punts);
+                Integer FitxesALaLinia = JocActual.Linies.get( new KeyValue( i , fila ) );
+                if( FitxesALaLinia != null){
+                    if( FitxesALaLinia > 0 ) { QuantsJugadorsLinia++; }
+                    PuntsLiniaJugadors.put( i , FitxesALaLinia );
                 }
             }
             if(QuantsJugadorsLinia > 1) score -= 100; //A la línia ja no es pot fer...
 
-            Integer FitxesMeves = PuntsLiniaJugadors.get(myPlayer);
-            Integer FitxesAltre = PuntsLiniaJugadors.get(myPlayer-1);
+            Integer FitxesMeves = PuntsLiniaJugadors.get( this.getJugador() );
+            Integer FitxesAltre = PuntsLiniaJugadors.get( this.getNextPlayer() );
             if(QuantsJugadorsLinia == 1 && FitxesMeves > 0) score +=20; //Sempre intentem jugar a una línia que poguem fer línia
             switch(FitxesMeves){
                 case 1: score +=  50; break;
@@ -342,7 +322,7 @@ public class Joc {
         }
         return score;
     }
-*/
+
     public void setJugador(int jugador) {
         this.Jugador = jugador;
     }
