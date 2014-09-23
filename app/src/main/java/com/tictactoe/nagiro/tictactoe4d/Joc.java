@@ -177,7 +177,9 @@ public class Joc {
     public Boolean doMoviment(int NumeroCasella, boolean ia){
 
         Casella c = this.Taulell.get(NumeroCasella);
+
         boolean JugadaOK = c.putFitxa(this.getJugador(), this.Nivell, ia);
+
         if( JugadaOK ){
 
             Vector<String> LiniesNoves = this.EsLinia(c);       //Mirem quines línies fem amb aquesta casella
@@ -185,20 +187,16 @@ public class Joc {
                 for (String linia : LiniesNoves) {
                     for (Integer i : Casella.getCasellesFromFila(linia)) {
                         if (i instanceof Integer) {
-                            Casella temp = (Casella) Taulell.get(i);
-                            temp.showAnimation(this.Nivell);
+                            Taulell.get(i).showAnimation(this.Nivell);
                         }
                     }
                 }
             }
 
             this.Taulell.put( c.getNumero() , c );
-            return true;
-        } else {
-            //c.removeFitxa(this.getJugador(), this.Nivell);
-            return false;
         }
 
+        return JugadaOK;
     }
 
     //Funció que marca un moviment
@@ -212,10 +210,10 @@ public class Joc {
     }
 
     public void SaltaNivell(){
-       this.Nivell++;
         for (Map.Entry<Integer, Casella> c : Taulell.entrySet()) {
-            c.getValue().doNewLevel();
+            c.getValue().doNewLevel(this.Nivell);
         }
+        this.Nivell++;
     }
 
 
@@ -252,13 +250,14 @@ public class Joc {
         List<Integer> nextMoves = generateMoves(this);
 
         int score = 0;
-        int millorScore = 0;
-        int millorCasella = -1;
-
+        int millorScore = -999999;
+        int millorCasella = 0;
+        Log.v("---------------------------------------","------");
         for(Integer numCasella : nextMoves){
 
             this.doMoviment(numCasella, true );
             score = evaluate(numCasella, this, this.getJugador() );
+            Log.v("Mov",String.valueOf(score));
             this.UndoDoMoviment(numCasella);
 
             if(score > millorScore){

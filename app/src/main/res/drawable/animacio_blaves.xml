@@ -2,10 +2,10 @@
 
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="true">
-    <item android:drawable="@drawable/f_azul_uno" android:duration="150" />
-    <item android:drawable="@drawable/f_azul_dos" android:duration="150" />
-    <item android:drawable="@drawable/f_azul_tres" android:duration="150" />
-    <item android:drawable="@drawable/f_azul_cuatro" android:duration="150" />
-    <item android:drawable="@drawable/f_azul_5" android:duration="150" />
+    <item android:drawable="@drawable/f_blava_1" android:duration="150" />
+    <item android:drawable="@drawable/f_blava_2" android:duration="150" />
+    <item android:drawable="@drawable/f_blava_3" android:duration="150" />
+    <item android:drawable="@drawable/f_blava_4" android:duration="150" />
+    <item android:drawable="@drawable/f_blava_5" android:duration="150" />
 
 </animation-list>

@@ -2,6 +2,7 @@ package com.tictactoe.nagiro.tictactoe4d;
 
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.animation.Animation;
 import android.widget.ImageView;
@@ -21,23 +22,32 @@ public class Casella {
     //Colors de les fitxes
     public HashMap<Integer, Integer> Colors;
     public Activity Context;
+    public boolean Clara;
 
     public Casella(int id, ImageView i, Activity Context){
 
         this.Colors = new HashMap<Integer,Integer>();
         Colors.put(0, R.drawable.casella);
-        Colors.put(1, R.drawable.f_blava_0);
-        Colors.put(2, R.drawable.f_vermella1);
+        Colors.put(1, R.drawable.f_blava_1);
+        Colors.put(2, R.drawable.f_vermella_1);
         Colors.put(3, R.drawable.f_groga_1);
-        Colors.put(4, R.drawable.f_verde0);
+        Colors.put(4, R.drawable.f_verda_1);
         Colors.put(5, R.drawable.animacio_blaves);
         Colors.put(6, R.drawable.animacio_vermelles);
         Colors.put(7, R.drawable.animacio_grogues);
         Colors.put(8, R.drawable.animacio_verdes);
 
+        Colors.put(11, R.drawable.f_blava_1_f);
+        Colors.put(12, R.drawable.f_vermella_1_f);
+        Colors.put(13, R.drawable.f_groga_1_f);
+        Colors.put(14, R.drawable.f_verda_1_f);
+        Colors.put(15, R.drawable.animacio_blaves_f);
+        Colors.put(16, R.drawable.animacio_vermelles_f);
+        Colors.put(17, R.drawable.animacio_grogues_f);
+        Colors.put(18, R.drawable.animacio_verdes_f);
+
         this.Numero = id;
         this.Nom = "i" + String.valueOf(id);
-        this.JugadorPerNivell.put(1,0);
         this.i = i;
         this.i.setBackgroundResource( this.Colors.get(0) );
         this.Context = Context; //Passem el context per poder disparar el thread de l'animació
@@ -72,17 +82,17 @@ public class Casella {
 
         Integer Jugador = this.JugadorPerNivell.get(Nivell);
         if( Jugador == null || Jugador == 0 ){ Jugador = this.JugadorPerNivell.get(Nivell - 1); }
-        this.i.setBackgroundResource( this.Colors.get( Jugador + 4 ) );
+        if( this.JugadorPerNivell.size() == Nivell) this.i.setBackgroundResource( this.Colors.get( Jugador + 4 ) );
+        else this.i.setBackgroundResource( this.Colors.get( Jugador + 14 ) );
 
-        final AnimationDrawable a = (AnimationDrawable)this.i.getBackground();
+        final AnimationDrawable a;
+        a = (AnimationDrawable)this.i.getBackground();
 
         this.Context.runOnUiThread(
                 new Runnable(){
                     public void run(){
+                       a.stop();
                        a.start();
-                       try { Thread.sleep(1000); } catch (InterruptedException e) {
-                        }
-                        a.stop();
                     }
                 }
         );
@@ -92,39 +102,26 @@ public class Casella {
     public boolean putFitxa(int Jugador, int Nivell, boolean ia){
 
         //miro si al mateix nivell ja hi ha una fitxa
-        if( this.getJugador(Nivell) > 0 ) return false;
+        if( this.getJugador(Nivell) == 0 ) {
 
-        if(!ia) {
-            this.i.setBackgroundResource(this.Colors.get(Jugador));
-            this.i.getBackground().setAlpha(255);
+            if (!ia) { this.i.setBackgroundResource(this.Colors.get(Jugador)); }
+            this.JugadorPerNivell.put(Nivell, Jugador);
+            return true;
+
         }
-
-        this.JugadorPerNivell.put( Nivell , Jugador );
-
-        return true;
+        else return false;
     }
 
     public void removeFitxa(int Jugador, int Nivell) {
-
-        if(Nivell > 1) this.JugadorPerNivell.remove(Nivell);
-        else this.JugadorPerNivell.put(Nivell, this.getJugador(Nivell - 1 ));
-
-        this.i.setBackgroundResource( this.Colors.get( this.getJugador(Nivell - 1) ) );
-        if(Nivell == 1) this.i.getBackground().setAlpha(255);
-        else this.i.getBackground().setAlpha(100);
-        if(this.i.getBackground() instanceof AnimationDrawable) {
-            AnimationDrawable a = (AnimationDrawable) this.i.getBackground();
-            a.start();
-        }
-
+        this.JugadorPerNivell.remove(Nivell);
     }
 
     public void setImage(ImageView i){
         this.i = i;
     }
 
-    public void doNewLevel(){
-        this.i.getBackground().setAlpha(100);
+    public void doNewLevel(int Nivell){
+        this.i.setBackgroundResource(this.Colors.get(this.JugadorPerNivell.get(Nivell)+10));
     }
 
     static public String getNomCasella(int NumeroCasella){

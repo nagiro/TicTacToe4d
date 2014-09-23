@@ -23,6 +23,7 @@ public class main extends Activity {
 
     static private Joc J;
     static private HashMap<Integer, Casella> Taulell = new HashMap<Integer, Casella>();
+    public HashMap<Integer, Integer> Colors = new HashMap<Integer, Integer>();
 
     View.OnClickListener listener = new View.OnClickListener(){
         public void onClick(View v){
@@ -34,6 +35,10 @@ public class main extends Activity {
             } else {
                 doJugadaMaquina();
             }
+
+            if(main.this.J.Nivell == main.this.J.QuantsNivells) {
+                main.this.FiDelJoc();
+            }
         }
     };
 
@@ -43,8 +48,8 @@ public class main extends Activity {
 
         i = J.moveIA();
         J.doMoviment( i , false );
-        J.PassaTorn();
         this.ActualitzaComptador(Jugador);
+        J.PassaTorn();
 
     }
 
@@ -52,8 +57,8 @@ public class main extends Activity {
 
         int Jugador = J.getJugador();
         if( J.doMoviment( Casella.getNumCasella( nom ) , false ) ){
-            J.PassaTorn();
             this.ActualitzaComptador(Jugador);
+            J.PassaTorn();
         } else {
             Toast.makeText( main.this.getApplicationContext() ,"Ja hi ha una fitxa d'un altre jugador", Toast.LENGTH_SHORT).show();
         }
@@ -64,6 +69,15 @@ public class main extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Colors.put(1, R.drawable.f_blava_contador);
+        Colors.put(2, R.drawable.f_vermella_contador);
+        Colors.put(3, R.drawable.f_groga_contador);
+        Colors.put(4, R.drawable.f_verda_contador);
+        Colors.put(11,R.drawable.f_blava_contador_f);
+        Colors.put(12,R.drawable.f_vermella_contador_f);
+        Colors.put(13,R.drawable.f_groga_contador_f);
+        Colors.put(14,R.drawable.f_verda_contador_f);
 
         for(int i=1; i<17; i++) {
             try {
@@ -106,12 +120,23 @@ public class main extends Activity {
         b2.create().show();
 
         //Inicialitzem els comptadors
+        if(J.getJugador() != 1) findViewById(getResources().getIdentifier("comptador1" ,"id",main.this.getPackageName())).setBackgroundResource( this.Colors.get(11) );
+        if(J.getJugador() != 2) findViewById(getResources().getIdentifier("comptador2" ,"id",main.this.getPackageName())).setBackgroundResource(R.drawable.f_vermella_contador_f);
+        if(J.getJugador() != 3) findViewById(getResources().getIdentifier("comptador3" ,"id",main.this.getPackageName())).setBackgroundResource(R.drawable.f_groga_contador_f);
+        if(J.getJugador() != 4) findViewById(getResources().getIdentifier("comptador4" ,"id",main.this.getPackageName())).setBackgroundResource(R.drawable.f_verda_contador_f);
 
-        if(J.getJugador() != 1) findViewById(getResources().getIdentifier("comptador1" ,"id",main.this.getPackageName())).getBackground().setAlpha(100);
-        if(J.getJugador() != 2) findViewById(getResources().getIdentifier("comptador2" ,"id",main.this.getPackageName())).getBackground().setAlpha(100);
-        if(J.getJugador() != 3) findViewById(getResources().getIdentifier("comptador3" ,"id",main.this.getPackageName())).getBackground().setAlpha(100);
-        if(J.getJugador() != 4) findViewById(getResources().getIdentifier("comptador4" ,"id",main.this.getPackageName())).getBackground().setAlpha(100);
+    }
 
+    public void FiDelJoc(){
+        AlertDialog.Builder b2 = new AlertDialog.Builder(this);
+        b2.setTitle("End of game!");
+        b2.setCancelable(false);
+        b2.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int id){
+                finish();
+            }
+        });
+        b2.create().show();
     }
 
     public ImageView getImageViewFromNom(int NumCasella){
@@ -123,16 +148,17 @@ public class main extends Activity {
 
     public void ActualitzaComptador(int Jugador){
 
+        int NextPlayer = this.J.getNextPlayer();
         int Player = getResources().getIdentifier("comptador" + Integer.valueOf(Jugador) ,"id",main.this.getPackageName());
-        int NextPlayer = getResources().getIdentifier("comptador" + Integer.valueOf(this.J.getJugador()) ,"id",main.this.getPackageName()); //Jugador que ha de fer la jugada
+        int NextPlayerR = getResources().getIdentifier("comptador" + Integer.valueOf( NextPlayer ) ,"id",main.this.getPackageName()); //Jugador que ha de fer la jugada
 
         TextView t=(TextView)findViewById(Player);
         int punts = J.CalculaPuntsJugador(Jugador);
         t.setText( String.valueOf(punts) );
-        t.getBackground().setAlpha(100);
+        t.setBackgroundResource(this.Colors.get(Jugador+10));
 
-        TextView t2 = (TextView)findViewById(NextPlayer);
-        t2.getBackground().setAlpha(255);
+        TextView t2 = (TextView)findViewById(NextPlayerR);
+        t2.setBackgroundResource(this.Colors.get(NextPlayer));
 
     }
 
