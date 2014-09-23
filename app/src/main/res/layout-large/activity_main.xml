@@ -203,7 +203,7 @@
             android:layout_width="100dp"
             android:layout_height="150dp"
             android:id="@+id/comptador4"
-            android:background="@drawable/f_verde_contador"
+            android:background="@drawable/f_verda_contador"
             android:layout_gravity="center_vertical"
             android:textSize="24dp"
             android:textColor="#FFFFFFFF"
