@@ -17,8 +17,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/taula_joc"
         android:stretchColumns="1,2,3,4"
-        android:shrinkColumns="1,2,3,4"
-        android:background="@color/FonsTaulell">
+        android:shrinkColumns="1,2,3,4">
 
         <TableRow
             android:layout_width="wrap_content"
@@ -165,7 +164,7 @@
             android:layout_width="75dp"
             android:layout_height="100dp"
             android:id="@+id/comptador1"
-            android:background="@drawable/f_blava_contador"
+            android:background="@drawable/f_blava_contador_o"
             android:layout_gravity="center_vertical"
             android:textSize="20dp"
             android:textColor="#FFFFFFFF"
@@ -202,7 +201,7 @@
             android:layout_width="75dp"
             android:layout_height="100dp"
             android:id="@+id/comptador4"
-            android:background="@drawable/f_verda_contador"
+            android:background="@drawable/f_verde_contador"
             android:layout_gravity="center_vertical"
             android:textSize="20dp"
             android:textColor="#FFFFFFFF"

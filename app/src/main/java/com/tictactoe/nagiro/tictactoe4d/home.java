@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.provider.CalendarContract;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+//import android.support.v4.app.Fragment;
+//import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +20,7 @@ import com.tictactoe.nagiro.tictactoe4d.R;
 
 public class home extends Activity {
 
-    private ImageView button2,button3,button4,button5;
+    private ImageView boto_so, boto_options, boto_musica, boto_ajuda;
     private Button button1;
 
     @Override
@@ -37,8 +37,8 @@ public class home extends Activity {
 
 
         }**/
-        button5 = (ImageView)findViewById(R.id.boto_ajuda);
-        button5.setOnClickListener(new OnClickListener() {
+        boto_ajuda = (ImageView)findViewById(R.id.boto_ajuda);
+        boto_ajuda.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
                 Intent i=new Intent( home.this, Interrogante.class);
@@ -79,7 +79,8 @@ public class home extends Activity {
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	public static class PlaceholderFragment extends Fragment {
+    //He dejado el contenido suprimido del placeHolderFragment pues me daba error y no se usa
+	/*public static class PlaceholderFragment extends Fragment {
 
 		public PlaceholderFragment() {
 		}
@@ -91,6 +92,6 @@ public class home extends Activity {
 					false);
 			return rootView;
 		}
-	}
+	}*/
 
 }

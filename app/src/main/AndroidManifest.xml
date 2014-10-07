@@ -6,7 +6,6 @@
         android:allowBackup="true"
         android:largeHeap="true"
         android:icon="@drawable/ic_ico_u"
-
         android:label="@string/app_name" >
         <activity
             android:name=".home"
@@ -14,7 +13,6 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -30,6 +28,7 @@
             android:name=".Interrogante_dos"
             android:screenOrientation="portrait"
             ></activity>
+
     </application>
 
 </manifest>

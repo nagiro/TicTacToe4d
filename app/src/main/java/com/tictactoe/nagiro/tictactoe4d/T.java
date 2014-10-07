@@ -3,7 +3,7 @@ package com.tictactoe.nagiro.tictactoe4d;
 /**
  * Created by nagiro on 15/08/14.
  */
-public class T<X,Y,Z> {
+public class T <X,Y,Z> {
 
     public X Key;
     public Y Value;

@@ -13,7 +13,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="right"
-        android:background="@drawable/cancelar"
+        android:background="@drawable/retornar_boton"
         android:layout_alignParentEnd="false" />
 
     <Button
@@ -22,6 +22,6 @@
         android:layout_height="150dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/continuar" />
+        android:background="@drawable/continuar_boton" />
 
 </RelativeLayout>

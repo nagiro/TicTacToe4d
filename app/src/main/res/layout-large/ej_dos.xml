@@ -11,6 +11,6 @@
         android:layout_height="125dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/cancelar" />
+        android:background="@drawable/retornar_boton" />
 
 </RelativeLayout>

@@ -14,14 +14,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="2.90"
         android:orientation="vertical" >
 
         <Button
             android:id="@+id/boto_play"
-            android:layout_width="150dp"
-            android:layout_height="100dp"
-            android:background="@drawable/play_vermell"
+            android:layout_width="125dp"
+            android:layout_height="75dp"
+            android:background="@drawable/play_boton"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_weight="2"
@@ -32,15 +32,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.10"
+        android:layout_weight="0"
         android:gravity="center">
-
+//es mantenen les posicions dels 4 ImageView per quan implementem la música i el so
         <ImageView
             android:id="@+id/boto_so"
             android:layout_width="50dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            android:background="@drawable/altaveu"
+            android:background="@drawable/abc_ab_bottom_transparent_light_holo"
             android:layout_gravity="center|bottom"
             android:layout_margin="5dp"
             android:layout_marginLeft="5dp"
@@ -53,20 +53,7 @@
             android:layout_width="50dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            android:background="@drawable/settings"
-            android:layout_gravity="center|bottom"
-            android:layout_margin="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp" />
-
-        <ImageView
-            android:id="@+id/boto_musica"
-            android:layout_width="50dp"
-            android:layout_height="75dp"
-            android:layout_weight="1"
-            android:background="@drawable/music"
+            android:background="@drawable/settings_boton"
             android:layout_gravity="center|bottom"
             android:layout_margin="5dp"
             android:layout_marginLeft="5dp"
@@ -79,13 +66,26 @@
             android:layout_width="50dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            android:background="@drawable/interrog"
-            android:layout_gravity="center|bottom"
+            android:background="@drawable/interrogant_boton"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
             android:layout_margin="5dp" />
+
+        <ImageView
+            android:id="@+id/boto_musica"
+            android:layout_width="50dp"
+            android:layout_height="75dp"
+            android:layout_weight="1"
+            android:background="@drawable/abc_ab_bottom_transparent_light_holo"
+            android:layout_gravity="center|bottom"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp" />
+
     </LinearLayout>
 
 </LinearLayout>

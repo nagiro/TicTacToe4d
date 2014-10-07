@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 /**
- * Created by nagiro on 30/07/14.
+ * Created by nagiro and MARC on 30/07/14.
  */
 public class Casella {
 
@@ -48,10 +48,10 @@ public class Casella {
 
         this.Numero = id;
         this.Nom = "i" + String.valueOf(id);
+        this.JugadorPerNivell.put(1,0);
         this.i = i;
         this.i.setBackgroundResource( this.Colors.get(0) );
-        this.Context = Context; //Passem el context per poder disparar el thread de l'animació
-
+this.Context = Context; //Passem el context per poder diparar el thread de l´animació
     }
 
     //Ens diu el color del jugador que és visible
@@ -70,6 +70,7 @@ public class Casella {
         } catch(Exception e){ return 0; }
     }
 
+
     public int getNumero(){
         return this.Numero;
     }
@@ -83,37 +84,69 @@ public class Casella {
         Integer Jugador = this.JugadorPerNivell.get(Nivell);
         if( Jugador == null || Jugador == 0 ){ Jugador = this.JugadorPerNivell.get(Nivell - 1); }
         if( this.JugadorPerNivell.size() == Nivell) this.i.setBackgroundResource( this.Colors.get( Jugador + 4 ) );
-        else this.i.setBackgroundResource( this.Colors.get( Jugador + 14 ) );
+         else this.i.setBackgroundResource( this.Colors.get( Jugador + 14 ) );
 
         final AnimationDrawable a;
         a = (AnimationDrawable)this.i.getBackground();
+this.Context.runOnUiThread(
+        new Runnable() {
+            @Override
+            public void run() {
+                a.stop();
+                a.start();
+            }
+        }
+);
+      /*  (programa version anterior) new Thread(new Runnable() {
+            public void run() {
+                a.start();
 
-        this.Context.runOnUiThread(
-                new Runnable(){
-                    public void run(){
-                       a.stop();
-                       a.start();
-                    }
-                }
-        );
+                try { Thread.sleep(1000);
+                } catch (InterruptedException e) { e.printStackTrace(); }
+
+                a.stop();
+
+            }
+
+        }).start();*/
 
     }
 
-    public boolean putFitxa(int Jugador, int Nivell, boolean ia){
+    public boolean putFitxa(int Jugador, int Nivell, boolean ia) {
 
         //miro si al mateix nivell ja hi ha una fitxa
-        if( this.getJugador(Nivell) == 0 ) {
+        if (this.getJugador(Nivell) == 0) {
+            if (!ia) {
+                this.i.setBackgroundResource(this.Colors.get(Jugador));
+            }
 
-            if (!ia) { this.i.setBackgroundResource(this.Colors.get(Jugador)); }
+
+     /*  (codigo anterior) this.i.setBackgroundResource( this.Colors.get( Jugador ) );
+        AnimationDrawable a = (AnimationDrawable)this.i.getBackground();
+        a.setAlpha(255);*/
+            //      a.start();
+
             this.JugadorPerNivell.put(Nivell, Jugador);
-            return true;
 
+            return true;
         }
         else return false;
     }
-
+    //Només per IA
     public void removeFitxa(int Jugador, int Nivell) {
-        this.JugadorPerNivell.remove(Nivell);
+this.JugadorPerNivell.remove(Nivell);
+
+      /* (codigo anterior) if(Nivell > 1) this.JugadorPerNivell.remove(Nivell);
+        else this.JugadorPerNivell.put(Nivell, this.getJugador(Nivell - 1 ));
+
+        this.i.setBackgroundResource( this.Colors.get( this.getJugador(Nivell - 1) ) );
+        if(Nivell == 1) this.i.getBackground().setAlpha(255);
+        else this.i.getBackground().setAlpha(100);
+        if(this.i.getBackground() instanceof AnimationDrawable) {
+            AnimationDrawable a = (AnimationDrawable) this.i.getBackground();
+            a.start();
+        }*/
+
     }
 
     public void setImage(ImageView i){
@@ -139,15 +172,15 @@ public class Casella {
         String val = this.Nom.substring(1);
         int NumCasella = Integer.parseInt(val);
         Vector<String> Ret = new Vector<String>();
-
+//casella fila, les quatre files
         if( NumCasella >=1 && NumCasella <=4) Ret.add("F1");
         else if( NumCasella >= 5 && NumCasella <= 8 ) Ret.add("F2");
         else if( NumCasella >= 9 && NumCasella <= 12 ) Ret.add("F3");
         else if( NumCasella >= 13 && NumCasella <= 16 ) Ret.add("F4");
-
+//caselles diagonals; les dues diagonals
         if( NumCasella == 1 || NumCasella == 6 || NumCasella == 11 || NumCasella == 16 ) Ret.add("D1");
         if( NumCasella == 4 || NumCasella == 7 || NumCasella == 10 || NumCasella == 13 ) Ret.add("D2");
-
+//caselles columnes, les quatre columnes
         if( NumCasella == 1 || NumCasella == 5 || NumCasella == 9 || NumCasella == 13 ) Ret.add("C1");
         if( NumCasella == 2 || NumCasella == 6 || NumCasella == 10 || NumCasella == 14 ) Ret.add("C2");
         if( NumCasella == 3 || NumCasella == 7 || NumCasella == 11 || NumCasella == 15 ) Ret.add("C3");

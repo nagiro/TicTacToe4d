@@ -2,22 +2,22 @@
 <pre-dex-items>
 
     <item
-        dex="C:\Users\Monica\Desktop\Documents\workspace\TicTacToe4D\TicTacToe4d\app\build\intermediates\pre-dexed\debug\classes-01645ebcd33137316bfbeaf2c42025de0c4249cb.jar"
-        jar="C:\Users\Monica\Desktop\Documents\workspace\TicTacToe4D\TicTacToe4d\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\19.1.0\classes.jar"
+        dex="/Users/nagiro/AndroidStudioProjects/TicTacToe4d/app/build/intermediates/pre-dexed/debug/classes-88759a9deb851d4fe064e05e81fc7b58c0301c7e.jar"
+        jar="/Users/nagiro/AndroidStudioProjects/TicTacToe4d/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
     <item
-        dex="C:\Users\Monica\Desktop\Documents\workspace\TicTacToe4D\TicTacToe4d\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-826b17ce29b1afbd032560e421c99a2b830e4adf.jar"
-        jar="C:\Users\Monica\AppData\Local\Android\android-studio\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
-    <item
-        dex="C:\Users\Monica\Desktop\Documents\workspace\TicTacToe4D\TicTacToe4d\app\build\intermediates\pre-dexed\debug\javatuples-1.2-ab6da40a02d36f9673aeada73c5b5b535d200fdd.jar"
-        jar="C:\Users\Monica\Desktop\Documents\workspace\TicTacToe4D\TicTacToe4d\app\libs\javatuples-1.2.jar"
+        dex="/Users/nagiro/AndroidStudioProjects/TicTacToe4d/app/build/intermediates/pre-dexed/debug/javatuples-1.2-4ebc3f94d1ba14b89e8d65c23145f553c93812b8.jar"
+        jar="/Users/nagiro/AndroidStudioProjects/TicTacToe4d/app/libs/javatuples-1.2.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="bf042fd0806fae9014ae779b886d4e0884614502"/>
+    <item
+        dex="/Users/nagiro/AndroidStudioProjects/TicTacToe4d/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-fe930dc68beb1e566675ce71b270d4091c6c249b.jar"
+        jar="/Applications/Android Studio.app/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
 
 </pre-dex-items>
