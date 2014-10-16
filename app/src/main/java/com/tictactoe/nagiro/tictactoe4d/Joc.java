@@ -124,30 +124,30 @@ public class Joc {
 public void UndoEsLinia(Casella c){
 
     Vector<String> LiniesNoves = new Vector();
+    int FitxesOriginal = 0;
+    Integer fitxes = new Integer(0);
+    int JugadorNivellAnterior = 0;
 
     for(String linia : c.getFiles()){
-        Integer fitxes = this.Linies.get( new KeyValue(this.getJugador(), linia));
-        int FitxesOriginal = fitxes;
-
-
+        fitxes = this.Linies.get( new KeyValue(this.getJugador(), linia));
+        FitxesOriginal = fitxes;
 
         if(fitxes != null){
-            int JugadorNivellAnterior = c.getJugador(this.Nivell-1);
+            JugadorNivellAnterior = c.getJugador(this.Nivell-1);
             if ( JugadorNivellAnterior != this.getJugador() ){
                 fitxes = fitxes - 1;
                 this.Linies.put( new KeyValue(this.getJugador(), linia), fitxes);
                 Integer FitxesJugadorNivellAnterior = this.Linies.get( new KeyValue(JugadorNivellAnterior, linia) );
-                this.Linies.put( new KeyValue(JugadorNivellAnterior,linia), FitxesJugadorNivellAnterior + 1 );// ok revidado aqui suma los dos niveles)))))))))))))
-
+                this.Linies.put( new KeyValue(JugadorNivellAnterior,linia), FitxesJugadorNivellAnterior + 1 );
             }
         }
-        if(FitxesOriginal == 4 && fitxes == 3){
+
+        if(FitxesOriginal == 4 && (fitxes == 3 || JugadorNivellAnterior == this.getJugador() )){
             Integer PuntsActuals = this.Punts.get( new KeyValue(this.Nivell, this.getJugador() ) );
             if(PuntsActuals != null) this.Punts.put( new KeyValue(this.Nivell, this.getJugador() ),PuntsActuals - 1 );
-            //ok revisado )))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
         }
-    }
 
+    }
 }
 
 
@@ -209,13 +209,10 @@ public void UndoEsLinia(Casella c){
                     //Fem l'animació de les caselles
                 }
             }
-this.Taulell.put( c.getNumero() , c );
-          /* (esto estaba en el programa anterior)this.Taulell.put( c.getNumero() , c );
-            return true;
-        } else {
-            return false;*/
+
+            this.Taulell.put( c.getNumero() , c );
         }
-return  JugadaOK;
+        return  JugadaOK;
     }
 
     //Funció que marca un moviment
