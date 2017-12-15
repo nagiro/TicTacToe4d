@@ -34,6 +34,7 @@ public class Interrogante extends Activity {
 				// TODO Auto-generated method stub
 			Intent in=new Intent( Interrogante.this , com.tictactoe.nagiro.tictactoe4d.Interrogante_dos.class );
 			startActivity(in);
+                finish();
 			}
 		});
 

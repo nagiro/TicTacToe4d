@@ -7,18 +7,83 @@
     android:background="@drawable/fondo_layout">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"></LinearLayout>
+        android:paddingTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/niveles"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:textSize="40dp"
+            android:textColor="#FFFFFFFF"
+            android:text="  LEVEL 1"
+            android:background="#FF000000"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.09">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:id="@+id/comptador1"
+            android:background="@drawable/f_blava_contador_o"
+            android:layout_gravity="center_vertical"
+            android:textSize="40dp"
+            android:textColor="#FFFFFFFF"
+            android:layout_weight="1"
+            android:paddingLeft="33dp"
+            android:text="00" />
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:id="@+id/comptador2"
+            android:background="@drawable/f_vermella_contador"
+            android:layout_gravity="center_vertical"
+            android:textSize="40dp"
+            android:textColor="#FFFFFFFF"
+            android:layout_weight="1"
+            android:paddingLeft="33dp"
+            android:text="00" />
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:id="@+id/comptador3"
+            android:background="@drawable/f_groga_contador"
+            android:layout_gravity="center_vertical"
+            android:textSize="40dp"
+            android:textColor="#FFFFFFFF"
+            android:layout_weight="1"
+            android:paddingLeft="33dp"
+            android:text="00" />
+
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:id="@+id/comptador4"
+            android:background="@drawable/f_verda_contador"
+            android:layout_gravity="center_vertical"
+            android:textSize="40dp"
+            android:textColor="#FFFFFFFF"
+            android:layout_weight="1"
+            android:paddingLeft="33dp"
+            android:text="00" />
+
+    </LinearLayout>
 
     <TableLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/taula_joc"
         android:stretchColumns="1,2,3,4"
         android:shrinkColumns="1,2,3,4"
-        android:layout_weight="0.15">
+        android:layout_weight="0.03">
 
         <TableRow
             android:layout_width="wrap_content"
@@ -155,61 +220,18 @@
 
     </TableLayout>
 
+
     <LinearLayout
+        android:paddingTop="10dp"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.10">
+        android:layout_width="728dp"
+        android:layout_height="100dp"
+        android:layout_weight="0.25"
 
-        <TextView
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            android:id="@+id/comptador1"
-            android:background="@drawable/f_blava_contador_o"
-            android:layout_gravity="center_vertical"
-            android:textSize="40dp"
-            android:textColor="#FFFFFFFF"
-            android:layout_weight="1"
-            android:paddingLeft="33dp"
-            android:text="00" />
+        android:id="@+id/publicidad">
 
-        <TextView
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            android:id="@+id/comptador2"
-            android:background="@drawable/f_vermella_contador"
-            android:layout_gravity="center_vertical"
-            android:textSize="40dp"
-            android:textColor="#FFFFFFFF"
-            android:layout_weight="1"
-            android:paddingLeft="33dp"
-            android:text="00" />
-
-        <TextView
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            android:id="@+id/comptador3"
-            android:background="@drawable/f_groga_contador"
-            android:layout_gravity="center_vertical"
-            android:textSize="40dp"
-            android:textColor="#FFFFFFFF"
-            android:layout_weight="1"
-            android:paddingLeft="33dp"
-            android:text="00" />
-
-
-        <TextView
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            android:id="@+id/comptador4"
-            android:background="@drawable/f_verde_contador"
-            android:layout_gravity="center_vertical"
-            android:textSize="40dp"
-            android:textColor="#FFFFFFFF"
-            android:layout_weight="1"
-            android:paddingLeft="33dp"
-            android:text="00" />
 
     </LinearLayout>
+
 
 </LinearLayout>

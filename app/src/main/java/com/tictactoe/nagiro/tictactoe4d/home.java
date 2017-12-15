@@ -3,10 +3,13 @@ package com.tictactoe.nagiro.tictactoe4d;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 //import android.support.v4.app.Fragment;
 //import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,29 +17,28 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.tictactoe.nagiro.tictactoe4d.R;
 
 public class home extends Activity {
-
-    private ImageView boto_so, boto_options, boto_musica, boto_ajuda;
-    private Button button1;
-
+private SoundPool sp;
+    private ImageView  boto_options, boto_ajuda, boto_play;
+    private ToggleButton boto_musica;
+   // private Button button1;
+private  Toast toast;
+    private long lastBackPressTime = 0;
+    private boolean HiHaSo = true;
     @Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
 
-      /**  public void Boton() {
-        AnimationDrawable animacio_play;
-        animacio_play = (AnimationDrawable) getResources().getDrawable(R.drawable.animacio_play);
-        Button boto_play = new Button(this);
-        boto_play.setBackground(animacio_play);
-        animacio_play.start();
 
-
-        }**/
         boto_ajuda = (ImageView)findViewById(R.id.boto_ajuda);
         boto_ajuda.setOnClickListener(new OnClickListener() {
 
@@ -46,15 +48,44 @@ public class home extends Activity {
             }
         });
 
-        button1 = (Button)findViewById(R.id.boto_play);
-        button1.setOnClickListener(new OnClickListener(){
+        boto_musica = (ToggleButton)findViewById(R.id.boto_musica);
+        boto_musica.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                home.this.HiHaSo = !b;
+            }
+        });
+
+        boto_play = (ImageView)findViewById(R.id.boto_play);
+        boto_play.setOnClickListener(new OnClickListener(){
             public void onClick(View v){
                 Intent i = new Intent ( home.this , main.class);
+                i.putExtra("HiHaSo",(Boolean)home.this.HiHaSo);
                 startActivity(i);
             }
         });
 
 	}
+    public  void onBackPressed(){
+        Toast toastExit = new Toast(getApplicationContext());
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.layout_exit, (ViewGroup)findViewById(R.id.exit_layout));
+        TextView textoExit = (TextView)findViewById(R.id.textoExit);
+        if( this.lastBackPressTime < System.currentTimeMillis() - 4000 ){
+            toastExit.setDuration(Toast.LENGTH_LONG);
+            toastExit.setView(layout);
+            toastExit.setGravity(Gravity.CENTER|Gravity.LEFT,0,0);
+            toastExit.show();
+            this.lastBackPressTime = System.currentTimeMillis();
+
+        }else{
+            if(toast != null){
+                toast.cancel();
+            }
+            super.onBackPressed();
+        }
+    }
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

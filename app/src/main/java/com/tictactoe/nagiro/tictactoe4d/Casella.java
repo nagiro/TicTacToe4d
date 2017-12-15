@@ -88,15 +88,27 @@ this.Context = Context; //Passem el context per poder diparar el thread de l´an
 
         final AnimationDrawable a;
         a = (AnimationDrawable)this.i.getBackground();
-        this.Context.runOnUiThread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        a.stop();
-                        a.start();
-                    }
-                }
-        );
+this.Context.runOnUiThread(
+        new Runnable() {
+            @Override
+            public void run() {
+                a.stop();
+                a.start();
+            }
+        }
+);
+      /*  (programa version anterior) new Thread(new Runnable() {
+            public void run() {
+                a.start();
+
+                try { Thread.sleep(1000);
+                } catch (InterruptedException e) { e.printStackTrace(); }
+
+                a.stop();
+
+            }
+
+        }).start();*/
 
     }
 
@@ -108,6 +120,12 @@ this.Context = Context; //Passem el context per poder diparar el thread de l´an
                 this.i.setBackgroundResource(this.Colors.get(Jugador));
             }
 
+
+     /*  (codigo anterior) this.i.setBackgroundResource( this.Colors.get( Jugador ) );
+        AnimationDrawable a = (AnimationDrawable)this.i.getBackground();
+        a.setAlpha(255);*/
+            //      a.start();
+
             this.JugadorPerNivell.put(Nivell, Jugador);
 
             return true;
@@ -116,8 +134,18 @@ this.Context = Context; //Passem el context per poder diparar el thread de l´an
     }
     //Només per IA
     public void removeFitxa(int Jugador, int Nivell) {
+this.JugadorPerNivell.remove(Nivell);
 
-        this.JugadorPerNivell.remove(Nivell);
+      /* (codigo anterior) if(Nivell > 1) this.JugadorPerNivell.remove(Nivell);
+        else this.JugadorPerNivell.put(Nivell, this.getJugador(Nivell - 1 ));
+
+        this.i.setBackgroundResource( this.Colors.get( this.getJugador(Nivell - 1) ) );
+        if(Nivell == 1) this.i.getBackground().setAlpha(255);
+        else this.i.getBackground().setAlpha(100);
+        if(this.i.getBackground() instanceof AnimationDrawable) {
+            AnimationDrawable a = (AnimationDrawable) this.i.getBackground();
+            a.start();
+        }*/
 
     }
 

@@ -3,7 +3,7 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/layout_inici"
+    android:background="@drawable/layout_principi"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -17,11 +17,11 @@
         android:layout_weight="1"
         android:orientation="vertical" >
 
-        <Button
+        <ImageView
             android:id="@+id/boto_play"
-            android:layout_width="250dp"
+            android:layout_width="300dp"
             android:layout_height="200dp"
-            android:background="@drawable/play_boton"
+            android:src="@drawable/boton_play"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_weight="2"
@@ -35,26 +35,14 @@
         android:layout_weight="0.10"
         android:gravity="center">
 
-        <ImageView
+        <ToggleButton
             android:id="@+id/boto_so"
             android:layout_width="100dp"
             android:layout_height="125dp"
             android:layout_weight="1"
             android:background="@drawable/abc_ab_bottom_transparent_light_holo"
-            android:layout_gravity="center|bottom"
-            android:layout_margin="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp" />
-
-        <ImageView
-            android:id="@+id/boto_options"
-            android:layout_width="100dp"
-            android:layout_height="125dp"
-            android:layout_weight="1"
-            android:background="@drawable/settings_boton"
-            android:layout_gravity="center|bottom"
+            android:textOn=""
+            android:textOff=""
             android:layout_margin="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
@@ -67,20 +55,32 @@
             android:layout_height="125dp"
             android:layout_weight="1"
             android:background="@drawable/interrogant_boton"
-            android:layout_gravity="center|bottom"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
             android:layout_margin="5dp" />
 
-        <ImageView
+        <ToggleButton
             android:id="@+id/boto_musica"
             android:layout_width="100dp"
             android:layout_height="125dp"
             android:layout_weight="1"
+            android:background="@drawable/musica"
+            android:textOn=""
+            android:textOff=""
+            android:layout_margin="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp" />
+
+        <ImageView
+            android:id="@+id/boto_options"
+            android:layout_width="100dp"
+            android:layout_height="125dp"
+            android:layout_weight="1"
             android:background="@drawable/abc_ab_bottom_transparent_light_holo"
-            android:layout_gravity="center|bottom"
             android:layout_margin="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"

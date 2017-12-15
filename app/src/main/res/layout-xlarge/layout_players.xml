@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/players"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<ImageView
+    android:id="@+id/jugador_uno"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@drawable/player_1"/>
+    <ImageView
+        android:id="@+id/jugador_dos"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/player_2"/>
+    <ImageView
+        android:id="@+id/jugador_tres"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/player_3"/>
+    <ImageView
+        android:id="@+id/jugador_cuatro"
+        android:layout_width="match_parent"
+        android:layout_height="150dp
+        "
+        android:background="@drawable/player_4"/>
+
+
+
+</LinearLayout>
